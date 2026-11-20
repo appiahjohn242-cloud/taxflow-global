@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "TaxFlow Global — Quick VAT & 1099 Tax",
+  "version": "1.0.0",
+  "description": "Fast US 1099 self-employment tax and UK/EU VAT quick calculator in your browser.",
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "TaxFlow Global"
+  }
+}

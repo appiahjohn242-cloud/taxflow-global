@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <style>
+    body { width: 320px; margin: 0; padding: 14px; background: #0b1120; color: #f8fafc; font-family: system-ui, sans-serif; }
+    h3 { font-size: 0.95rem; margin: 0 0 10px; }
+    label { display: block; font-size: 0.78rem; color: #94a3b8; margin-top: 8px; }
+    input, select { width: 100%; box-sizing: border-box; margin-top: 4px; padding: 7px 9px; border-radius: 6px; border: 1px solid #334155; background: #1e293b; color: #f8fafc; }
+    button { width: 100%; margin-top: 10px; padding: 8px; border: none; border-radius: 6px; background: #3b82f6; color: #fff; font-weight: 700; cursor: pointer; }
+    .out { margin-top: 12px; padding: 10px; border-radius: 8px; background: #111827; border: 1px solid #334155; font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+  <h3>TaxFlow Quick Calculator</h3>
+  <label for="amount">Amount ($ / £ / €)</label>
+  <input type="number" id="amount" value="1000" min="0" step="10" />
+  <label for="mode">Calculation Mode</label>
+  <select id="mode">
+    <option value="vat20">UK / France VAT (+20%)</option>
+    <option value="vat19">Germany VAT (+19%)</option>
+    <option value="se153">US SE Tax Est. (~14.13% of net)</option>
+  </select>
+  <button id="runBtn">Calculate</button>
+  <div class="out" id="result">Net: 1000.00 | Tax: 200.00 | Total: 1200.00</div>
+  <script src="popup.js"></script>
+</body>
+</html>
