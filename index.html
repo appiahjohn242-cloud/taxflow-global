@@ -161,7 +161,13 @@
     </div>
   </div>
 
-  <script>
+  
+<div id="gumroadCheckoutBox" style="margin:12px 0;padding:12px;border:1px solid rgba(59,130,246,0.35);border-radius:10px;background:rgba(15,23,42,0.75);">
+  <div style="font-weight:600;margin-bottom:6px;">Unlock Clean Export — $14 Pro License</div>
+  <div style="font-size:13px;opacity:0.85;margin-bottom:10px;">Purchase on Gumroad to receive your Pro unlock details, then enter your license key below to enable clean export.</div>
+  <a href="https://appiahjohn0.gumroad.com/l/xtclsy" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:10px 16px;border-radius:8px;background:#3b82f6;color:#ffffff;text-decoration:none;font-weight:600;">Get Pro License ($14)</a>
+</div>
+<script>
     const STATE_KEY = 'taxflow_pro_unlocked_v1';
     let isPro = false;
     try { isPro = localStorage.getItem(STATE_KEY) === 'true'; } catch (e) {}
@@ -273,5 +279,9 @@
     calcVat();
     updateProUI();
   </script>
+
+<footer id="taxflowDisclaimer" style="margin-top:28px;padding:14px;border-top:1px solid rgba(148,163,184,0.2);font-size:12px;line-height:1.5;opacity:0.8;">
+  <strong>Disclaimer:</strong> TaxFlow Global is a general estimation and invoicing utility for informational purposes only. Calculations for US self-employment tax, UK/EU VAT, and invoice drafts do not constitute formal tax, accounting, or legal advice. Always verify filings with a qualified tax professional or official revenue authority.
+</footer>
 </body>
 </html>
