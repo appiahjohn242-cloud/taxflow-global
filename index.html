@@ -3,175 +3,940 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TaxFlow Global — US 1099 Tax, UK/EU VAT Calculator &amp; Invoice Studio</title>
-  <meta name="description" content="Calculate 2026 US self-employment tax, UK/EU VAT, and generate clean contractor invoices in seconds." />
+  <title>TaxFlow Global — Global 1099 Tax, UK/EU VAT &amp; Contractor Invoice Platform</title>
+  <meta name="description" content="Take control of your taxes and simplify contractor finances. Estimate 2026 US 1099 self-employment tax, calculate UK/EU VAT, and generate clean invoices." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9249082047139376" crossorigin="anonymous"></script>
   <style>
     :root {
-      --bg: #0b1120;
-      --surface: #111827;
-      --surface-2: #1e293b;
-      --text: #f8fafc;
-      --muted: #94a3b8;
-      --accent: #3b82f6;
-      --accent-hover: #2563eb;
-      --green: #10b981;
-      --border: #334155;
+      --bg: #0B1220;
+      --bg-elevated: #0E1729;
+      --surface: #121D2E;
+      --surface-2: #18263C;
+      --surface-hover: #1D2E47;
+      --emerald: #19C995;
+      --emerald-hover: #14B384;
+      --emerald-soft: rgba(25, 201, 149, 0.12);
+      --emerald-border: rgba(25, 201, 149, 0.32);
+      --text: #F8FAFC;
+      --muted: #94A3B8;
+      --subtle: #64748B;
+      --border: rgba(148, 163, 184, 0.14);
+      --border-strong: rgba(148, 163, 184, 0.24);
+      --danger: #F87171;
+      --warning: #FBBF24;
+      --radius: 14px;
+      --radius-sm: 10px;
+      --shadow: 0 18px 40px -18px rgba(2, 6, 23, 0.75);
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
-    body { background: var(--bg); color: var(--text); line-height: 1.5; padding: 20px; }
-    .container { max-width: 1080px; margin: 0 auto; }
-    header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; padding-bottom: 18px; border-bottom: 1px solid var(--border); margin-bottom: 24px; }
-    .brand { font-size: 1.35rem; font-weight: 800; letter-spacing: -0.02em; }
-    .brand span { color: var(--accent); }
-    .badge { background: rgba(59,130,246,0.15); color: #93c5fd; border: 1px solid rgba(59,130,246,0.35); padding: 4px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
-    .tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
-    .tab-btn { background: var(--surface); color: var(--muted); border: 1px solid var(--border); padding: 10px 16px; border-radius: 8px; cursor: pointer; font-weight: 600; }
-    .tab-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    @media (max-width: 820px) { .grid { grid-template-columns: 1fr; } }
-    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
-    .card h2 { font-size: 1.05rem; margin-bottom: 14px; }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: radial-gradient(circle at 15% 0%, rgba(25, 201, 149, 0.08), transparent 36%), var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input, select { font-family: inherit; }
+
+    .container { max-width: 1180px; margin: 0 auto; padding: 0 20px; }
+
+    /* Navbar */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(11, 18, 32, 0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+      gap: 16px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 1.15rem;
+      letter-spacing: -0.02em;
+    }
+    .logo-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, var(--emerald), #0E9F75);
+      color: #042219;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 0.95rem;
+      box-shadow: 0 6px 18px rgba(25, 201, 149, 0.28);
+    }
+    .logo span { color: var(--emerald); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-actions { display: flex; align-items: center; gap: 10px; }
+    .tier-pill {
+      padding: 5px 11px;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .tier-pill.pro {
+      background: var(--emerald-soft);
+      border-color: var(--emerald-border);
+      color: var(--emerald);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 0.9rem;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+    .btn-primary {
+      background: var(--emerald);
+      color: #042219;
+      font-weight: 700;
+    }
+    .btn-primary:hover { background: var(--emerald-hover); transform: translateY(-1px); }
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--text);
+      border-color: var(--border-strong);
+    }
+    .btn-secondary:hover { background: var(--surface-hover); }
+    .btn-block { width: 100%; }
+
+    .mobile-menu-btn {
+      display: none;
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      color: var(--text);
+      padding: 8px 11px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    /* Hero */
+    .hero { padding: 56px 0 42px; }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.12fr 0.88fr;
+      gap: 32px;
+      align-items: center;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: var(--emerald-soft);
+      border: 1px solid var(--emerald-border);
+      color: var(--emerald);
+      font-size: 0.78rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 4vw, 3.1rem);
+      font-weight: 800;
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+    .hero p {
+      color: var(--muted);
+      font-size: 1.03rem;
+      max-width: 560px;
+      margin-bottom: 24px;
+    }
+    .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
+    .hero-trust {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+    .hero-trust span { display: inline-flex; align-items: center; gap: 6px; }
+    .dot-emerald { width: 7px; height: 7px; border-radius: 50%; background: var(--emerald); }
+
+    /* Hero Preview Card */
+    .preview-card {
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+    .preview-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 14px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .window-dots { display: flex; gap: 6px; }
+    .window-dots i { width: 9px; height: 9px; border-radius: 50%; background: var(--surface-hover); display: block; }
+    .kpi-mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+    .kpi-mini {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 13px;
+    }
+    .kpi-mini small { display: block; color: var(--muted); font-size: 0.76rem; margin-bottom: 4px; }
+    .kpi-mini strong { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em; }
+    .kpi-mini strong.emerald { color: var(--emerald); }
+
+    /* Section Headings */
+    .section { padding: 44px 0; }
+    .section-head { margin-bottom: 24px; }
+    .section-head h2 {
+      font-size: 1.65rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+    .section-head p { color: var(--muted); font-size: 0.95rem; }
+
+    /* App Workspace Shell */
+    .workspace-shell {
+      display: grid;
+      grid-template-columns: 245px 1fr;
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .workspace-shell.collapsed { grid-template-columns: 72px 1fr; }
+    .sidebar {
+      background: var(--bg-elevated);
+      border-right: 1px solid var(--border);
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .sidebar-top { display: flex; flex-direction: column; gap: 6px; }
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 8px 12px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 6px;
+    }
+    .sidebar-label { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--subtle); }
+    .collapse-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      cursor: pointer;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.15s ease;
+    }
+    .nav-item:hover { background: var(--surface); color: var(--text); }
+    .nav-item.active {
+      background: var(--emerald-soft);
+      border-color: var(--emerald-border);
+      color: var(--emerald);
+    }
+    .nav-icon { width: 20px; text-align: center; font-style: normal; flex-shrink: 0; }
+    .workspace-shell.collapsed .nav-text,
+    .workspace-shell.collapsed .sidebar-label,
+    .workspace-shell.collapsed .sidebar-pro-card { display: none; }
+
+    .sidebar-pro-card {
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 0.82rem;
+    }
+    .sidebar-pro-card strong { display: block; margin-bottom: 4px; color: var(--text); }
+    .sidebar-pro-card p { color: var(--muted); font-size: 0.78rem; margin-bottom: 10px; }
+
+    .workspace-main { padding: 24px; }
+    .ws-topbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .ws-topbar h3 { font-size: 1.2rem; font-weight: 700; }
+    .ws-topbar p { font-size: 0.84rem; color: var(--muted); }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .panel {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+    .panel h4 { font-size: 0.98rem; font-weight: 700; margin-bottom: 14px; }
+
     .field { margin-bottom: 14px; }
-    label { display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 6px; }
-    input, select { width: 100%; background: var(--surface-2); color: var(--text); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; font-size: 0.95rem; }
-    .stat-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(148,163,184,0.14); font-size: 0.95rem; }
-    .stat-val { font-weight: 700; }
-    .highlight { color: var(--green); font-size: 1.2rem; }
-    .btn { background: var(--accent); color: #fff; border: none; border-radius: 8px; padding: 11px 16px; font-weight: 700; cursor: pointer; width: 100%; margin-top: 8px; }
-    .btn:hover { background: var(--accent-hover); }
-    .btn-pro { background: var(--green); color: #052e16; }
-    .ad-slot { margin-top: 22px; background: var(--surface); border: 1px dashed var(--border); border-radius: 10px; padding: 14px; text-align: center; color: var(--muted); font-size: 0.85rem; }
-    .hidden { display: none; }
-    .invoice-box { background: var(--surface-2); border-radius: 10px; padding: 16px; margin-top: 12px; white-space: pre-line; font-family: ui-monospace, monospace; font-size: 0.85rem; }
-    .pro-status { font-size: 0.82rem; margin-top: 8px; color: #cbd5e1; }
+    .field label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .field input, .field select {
+      width: 100%;
+      background: var(--surface-2);
+      border: 1px solid var(--border-strong);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 9px;
+      font-size: 0.92rem;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+    .field input:focus, .field select:focus { border-color: var(--emerald); }
+
+    .stat-list { display: flex; flex-direction: column; }
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+    .stat-row:last-child { border-bottom: none; }
+    .stat-row span { color: var(--muted); }
+    .stat-row strong { font-weight: 700; color: var(--text); }
+    .stat-row strong.emerald { color: var(--emerald); font-size: 1.15rem; }
+
+    /* Breakdown Bar */
+    .bar-track {
+      height: 10px;
+      background: var(--surface-2);
+      border-radius: 999px;
+      overflow: hidden;
+      display: flex;
+      margin: 14px 0 8px;
+    }
+    .bar-seg-take { background: var(--emerald); height: 100%; transition: width 0.25s ease; }
+    .bar-seg-tax { background: #38BDF8; height: 100%; transition: width 0.25s ease; }
+    .bar-legend { display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--muted); }
+
+    /* Invoice Preview */
+    .invoice-paper {
+      background: #0F172A;
+      border: 1px solid var(--border-strong);
+      border-radius: 12px;
+      padding: 18px;
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 0.82rem;
+      line-height: 1.65;
+      white-space: pre-line;
+      color: #E2E8F0;
+      margin-bottom: 14px;
+    }
+    .toast {
+      margin-top: 10px;
+      padding: 9px 12px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      background: var(--surface-2);
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+    .toast.ok { background: var(--emerald-soft); border-color: var(--emerald-border); color: var(--emerald); }
+    .toast.err { background: rgba(248, 113, 113, 0.12); border-color: rgba(248, 113, 113, 0.35); color: var(--danger); }
+
+    .saved-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      margin-bottom: 8px;
+      font-size: 0.84rem;
+    }
+
+    /* AdSense Slot */
+    .ad-slot {
+      margin-top: 20px;
+      background: var(--bg-elevated);
+      border: 1px dashed var(--border-strong);
+      border-radius: 12px;
+      padding: 14px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    /* Feature & Pricing Cards */
+    .feature-card, .price-card, .faq-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+    .feature-card h4 { font-size: 1rem; margin-bottom: 6px; }
+    .feature-card p { font-size: 0.88rem; color: var(--muted); }
+
+    .price-card.featured {
+      border-color: var(--emerald-border);
+      box-shadow: 0 0 0 1px var(--emerald-border);
+    }
+    .price-tag { font-size: 2rem; font-weight: 800; margin: 10px 0 4px; }
+    .price-tag small { font-size: 0.85rem; font-weight: 500; color: var(--muted); }
+    .price-list { list-style: none; margin: 14px 0 18px; display: flex; flex-direction: column; gap: 8px; font-size: 0.88rem; color: var(--muted); }
+    .price-list li::before { content: "✓ "; color: var(--emerald); font-weight: 700; }
+
+    /* Browser Extension Showcase */
+    .browser-mock {
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .browser-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      background: var(--bg-elevated);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .ext-popup-demo {
+      max-width: 340px;
+      margin: 22px auto;
+      background: #0B1220;
+      border: 1px solid var(--emerald-border);
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 16px 34px rgba(0, 0, 0, 0.55);
+    }
+
+    .hidden { display: none !important; }
+
+    footer {
+      margin-top: 36px;
+      padding: 28px 0 40px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    @media (max-width: 960px) {
+      .hero-grid, .grid-2 { grid-template-columns: 1fr; }
+      .grid-3 { grid-template-columns: 1fr; }
+      .workspace-shell { grid-template-columns: 1fr; }
+      .sidebar { border-right: none; border-bottom: 1px solid var(--border); }
+      .sidebar-top { flex-direction: row; flex-wrap: wrap; }
+      .nav-item { width: auto; }
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 68px;
+        left: 0;
+        right: 0;
+        background: var(--bg-elevated);
+        padding: 16px 20px;
+        border-bottom: 1px solid var(--border);
+      }
+      .mobile-menu-btn { display: inline-flex; }
+    }
   </style>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9249082047139376" crossorigin="anonymous"></script>
 </head>
 <body>
-  <div class="container">
-    <header>
+
+  <!-- Navigation -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="#home" class="logo">
+        <span class="logo-mark">TF</span>
+        <div>TaxFlow<span>Global</span></div>
+      </a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="#home">Home</a>
+        <a href="#features">Features</a>
+        <a href="#workspace">Tools</a>
+        <a href="#extension">Extension</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">Help</a>
+      </nav>
+
+      <div class="nav-actions">
+        <span class="tier-pill" id="tierBadge">Free Tier • Ad-Supported</span>
+        <a href="#workspace" class="btn btn-primary">Get Started</a>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="container hero-grid">
       <div>
-        <div class="brand">TaxFlow<span>Global</span></div>
-        <div style="color: var(--muted); font-size: 0.88rem;">US 1099 Tax, UK/EU VAT &amp; Contractor Invoice Utility</div>
-      </div>
-      <div class="badge" id="tierBadge">Free Tier • Ad-Supported</div>
-    </header>
-
-    <div class="tabs">
-      <button class="tab-btn active" data-tab="us-tax">US 1099 Tax</button>
-      <button class="tab-btn" data-tab="vat-calc">UK / EU VAT</button>
-      <button class="tab-btn" data-tab="invoice">Invoice &amp; Pro Export</button>
-    </div>
-
-    <div id="tab-us-tax" class="grid">
-      <div class="card">
-        <h2>2026 US Self-Employment Estimator</h2>
-        <div class="field">
-          <label for="usIncome">Gross 1099 / Freelance Income ($)</label>
-          <input type="number" id="usIncome" value="85000" min="0" step="500" />
+        <div class="eyebrow"><span class="dot-emerald"></span> 2026 Contractor Tax &amp; Invoicing Suite</div>
+        <h1>Take Control of Your Taxes. Simplify Your Finances.</h1>
+        <p>Estimate 2026 US 1099 self-employment tax, calculate UK/EU VAT or B2B reverse charges, and generate clean contractor invoices from one unified financial workspace.</p>
+        <div class="hero-cta">
+          <a href="#workspace" class="btn btn-primary">Launch Tax Workspace</a>
+          <a href="#extension" class="btn btn-secondary">Explore Chrome Extension</a>
         </div>
-        <div class="field">
-          <label for="usExpenses">Deductible Business Expenses ($)</label>
-          <input type="number" id="usExpenses" value="12000" min="0" step="250" />
+        <div class="hero-trust">
+          <span><i class="dot-emerald"></i> Instant client-side math</span>
+          <span><i class="dot-emerald"></i> US 1099 + 8 UK/EU VAT regimes</span>
+          <span><i class="dot-emerald"></i> One-time $14 Pro unlock</span>
         </div>
-        <div class="field">
-          <label for="usStateRate">Estimated State Income Tax Rate (%)</label>
-          <select id="usStateRate">
-            <option value="0">0% — No State Income Tax (TX, FL, WA, NV)</option>
-            <option value="4.5">4.5% — Moderate State Rate</option>
-            <option value="7.5" selected>7.5% — High State Rate (CA / NY Est.)</option>
-          </select>
-        </div>
-        <button class="btn" id="calcUsBtn">Calculate US Tax</button>
       </div>
 
-      <div class="card">
-        <h2>Estimated Tax Breakdown</h2>
-        <div class="stat-row"><span>Net Profit</span><span class="stat-val" id="usNet">$73,000</span></div>
-        <div class="stat-row"><span>SE Tax (15.3% on 92.35%, cap $184.5k)</span><span class="stat-val" id="usSeTax">$10,314</span></div>
-        <div class="stat-row"><span>Est. Federal Income Tax (Post-SE Deduction)</span><span class="stat-val" id="usFedTax">$7,940</span></div>
-        <div class="stat-row"><span>Est. State Tax</span><span class="stat-val" id="usStateTax">$5,475</span></div>
-        <div class="stat-row"><span>Estimated Net Take-Home</span><span class="stat-val highlight" id="usTakeHome">$49,271</span></div>
-      </div>
-    </div>
-
-    <div id="tab-vat-calc" class="grid hidden">
-      <div class="card">
-        <h2>UK &amp; EU VAT / Reverse-Charge Calculator</h2>
-        <div class="field">
-          <label for="vatAmount">Net Invoice Amount</label>
-          <input type="number" id="vatAmount" value="2500" min="0" step="50" />
+      <div class="preview-card">
+        <div class="preview-top">
+          <div class="window-dots"><i></i><i></i><i></i></div>
+          <span style="font-size:0.78rem;color:var(--muted);">Live Financial Snapshot</span>
         </div>
-        <div class="field">
-          <label for="vatRegion">Jurisdiction &amp; Rate</label>
-          <select id="vatRegion">
-            <option value="20" selected>United Kingdom — 20% Standard VAT</option>
-            <option value="19">Germany — 19% Standard VAT</option>
-            <option value="20">France — 20% Standard VAT</option>
-            <option value="21">Netherlands / Spain — 21% Standard VAT</option>
-            <option value="22">Italy — 22% Standard VAT</option>
-            <option value="23">Ireland — 23% Standard VAT</option>
-            <option value="25">Sweden — 25% Standard VAT</option>
-            <option value="0">B2B Cross-Border Reverse Charge — 0% VAT</option>
-          </select>
+        <div class="kpi-mini-grid">
+          <div class="kpi-mini">
+            <small>Est. US Net Take-Home</small>
+            <strong class="emerald" id="heroTakeHome">$49,271</strong>
+          </div>
+          <div class="kpi-mini">
+            <small>UK / EU Gross Invoice</small>
+            <strong id="heroVatGross">3,000.00</strong>
+          </div>
+          <div class="kpi-mini">
+            <small>2026 SE Tax Estimate</small>
+            <strong id="heroSeTax">$10,314</strong>
+          </div>
+          <div class="kpi-mini">
+            <small>License Status</small>
+            <strong id="heroLicenseState">Free Plan</strong>
+          </div>
         </div>
-        <button class="btn" id="calcVatBtn">Calculate VAT Total</button>
-      </div>
-
-      <div class="card">
-        <h2>VAT Summary</h2>
-        <div class="stat-row"><span>Net Amount</span><span class="stat-val" id="vatNet">2,500.00</span></div>
-        <div class="stat-row"><span>VAT Amount</span><span class="stat-val" id="vatTax">500.00</span></div>
-        <div class="stat-row"><span>Gross Total</span><span class="stat-val highlight" id="vatGross">3,000.00</span></div>
+        <div style="font-size:0.8rem;color:var(--muted);display:flex;justify-content:space-between;">
+          <span>Synced with workspace calculators below</span>
+          <a href="#workspace" style="color:var(--emerald);font-weight:600;">Edit numbers →</a>
+        </div>
       </div>
     </div>
+  </section>
 
-    <div id="tab-invoice" class="grid hidden">
-      <div class="card">
-        <h2>Contractor Invoice &amp; Pro License Unlock</h2>
-        <div class="field">
-          <label for="invClient">Client / Company Name</label>
-          <input type="text" id="invClient" value="Northstar Digital Ltd" />
-        </div>
-        <div class="field">
-          <label for="invService">Service Description</label>
-          <input type="text" id="invService" value="Product Strategy &amp; UI Audit (November)" />
-        </div>
-        <div class="field">
-          <label for="invTotal">Invoice Total</label>
-          <input type="number" id="invTotal" value="3000" min="0" step="50" />
-        </div>
-        <button class="btn" id="genInvBtn">Generate Invoice Draft</button>
-        <div class="field" style="margin-top: 16px;">
-          <label for="licenseKey">Pro License Key (Try <code>PRO-GLOBAL-2026</code>)</label>
-          <input type="text" id="licenseKey" placeholder="Enter Lemon Squeezy / Gumroad key" />
-        </div>
-        <button class="btn btn-pro" id="unlockProBtn">Unlock Clean Export ($14 Pro)</button>
-        <div class="pro-status" id="proMsg">Pro exports locked on free plan.</div>
+  <!-- Interactive Financial Workspace -->
+  <section class="section" id="workspace">
+    <div class="container">
+      <div class="section-head">
+        <h2>Financial Operations Workspace</h2>
+        <p>Switch between US 1099 tax estimation, UK/EU VAT calculation, Invoice Studio, and Pro license activation.</p>
       </div>
 
-      <div class="card">
-        <h2>Invoice Preview</h2>
-        <div class="invoice-box" id="invPreview">Click "Generate Invoice Draft" to preview.</div>
-        <button class="btn" id="exportInvBtn">Download Clean Invoice (.TXT)</button>
+      <div class="workspace-shell" id="workspaceShell">
+        <!-- Collapsible Sidebar -->
+        <aside class="sidebar">
+          <div class="sidebar-top">
+            <div class="sidebar-header">
+              <span class="sidebar-label">Modules</span>
+              <button class="collapse-btn" id="collapseSidebarBtn" title="Collapse sidebar">⇄</button>
+            </div>
+            <button class="nav-item active" data-view="us-tax"><i class="nav-icon">🇺🇸</i><span class="nav-text">US 1099 Tax</span></button>
+            <button class="nav-item" data-view="vat-calc"><i class="nav-icon">🇪🇺</i><span class="nav-text">UK / EU VAT</span></button>
+            <button class="nav-item" data-view="invoice"><i class="nav-icon">🧾</i><span class="nav-text">Invoice Studio</span></button>
+            <button class="nav-item" data-view="overview"><i class="nav-icon">📊</i><span class="nav-text">Overview</span></button>
+            <button class="nav-item" data-view="license"><i class="nav-icon">🔑</i><span class="nav-text">Pro &amp; Settings</span></button>
+          </div>
+
+          <div class="sidebar-pro-card">
+            <strong>Clean Export License</strong>
+            <p>One-time $14 unlock removes export watermarks and free-tier ad banners.</p>
+            <a href="https://appiahjohn0.gumroad.com/l/xtclsy" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-block">Get Pro ($14)</a>
+          </div>
+        </aside>
+
+        <!-- Main Workspace Content -->
+        <div class="workspace-main">
+          <div class="ws-topbar">
+            <div>
+              <h3 id="wsTitle">2026 US Self-Employment Tax Estimator</h3>
+              <p id="wsSubtitle">Model net profit, 15.3% SE tax (92.35% base up to $184.5k), federal, and state taxes.</p>
+            </div>
+            <div style="display:flex;gap:8px;">
+              <button class="btn btn-secondary" data-jump="invoice">Open Invoice Studio</button>
+            </div>
+          </div>
+
+          <!-- View 1: US 1099 Tax Estimator -->
+          <div id="view-us-tax" class="grid-2">
+            <div class="panel">
+              <h4>Income &amp; Deduction Inputs</h4>
+              <div class="field">
+                <label for="usIncome">Gross 1099 / Freelance Income ($)</label>
+                <input type="number" id="usIncome" value="85000" min="0" step="500" />
+              </div>
+              <div class="field">
+                <label for="usExpenses">Deductible Business Expenses ($)</label>
+                <input type="number" id="usExpenses" value="12000" min="0" step="250" />
+              </div>
+              <div class="field">
+                <label for="usStateRate">Estimated State Income Tax Rate (%)</label>
+                <select id="usStateRate">
+                  <option value="0">0% — No State Income Tax (TX, FL, WA, NV)</option>
+                  <option value="4.5">4.5% — Moderate State Rate</option>
+                  <option value="7.5" selected>7.5% — High State Rate (CA / NY Est.)</option>
+                </select>
+              </div>
+              <button class="btn btn-primary btn-block" id="calcUsBtn">Calculate US Tax</button>
+            </div>
+
+            <div class="panel">
+              <h4>Estimated Tax Breakdown</h4>
+              <div class="stat-list">
+                <div class="stat-row"><span>Net Profit</span><strong id="usNet">$73,000</strong></div>
+                <div class="stat-row"><span>SE Tax (15.3% on 92.35%, cap $184.5k)</span><strong id="usSeTax">$10,314</strong></div>
+                <div class="stat-row"><span>Est. Federal Income Tax (Post-SE Deduction)</span><strong id="usFedTax">$7,940</strong></div>
+                <div class="stat-row"><span>Est. State Tax</span><strong id="usStateTax">$5,475</strong></div>
+                <div class="stat-row"><span>Estimated Net Take-Home</span><strong class="emerald" id="usTakeHome">$49,271</strong></div>
+              </div>
+              <div class="bar-track">
+                <div class="bar-seg-take" id="usTakeBar" style="width:67%;"></div>
+                <div class="bar-seg-tax" id="usTaxBar" style="width:33%;"></div>
+              </div>
+              <div class="bar-legend">
+                <span id="usTakePctLabel">Take-Home: 67%</span>
+                <span id="usTaxPctLabel">Total Tax Reserve: 33%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- View 2: UK / EU VAT Calculator -->
+          <div id="view-vat-calc" class="grid-2 hidden">
+            <div class="panel">
+              <h4>UK &amp; EU VAT / Reverse-Charge Inputs</h4>
+              <div class="field">
+                <label for="vatAmount">Net Invoice Amount</label>
+                <input type="number" id="vatAmount" value="2500" min="0" step="50" />
+              </div>
+              <div class="field">
+                <label for="vatRegion">Jurisdiction &amp; Rate</label>
+                <select id="vatRegion">
+                  <option value="20" selected>United Kingdom — 20% Standard VAT</option>
+                  <option value="19">Germany — 19% Standard VAT</option>
+                  <option value="20">France — 20% Standard VAT</option>
+                  <option value="21">Netherlands / Spain — 21% Standard VAT</option>
+                  <option value="22">Italy — 22% Standard VAT</option>
+                  <option value="23">Ireland — 23% Standard VAT</option>
+                  <option value="25">Sweden — 25% Standard VAT</option>
+                  <option value="0">B2B Cross-Border Reverse Charge — 0% VAT</option>
+                </select>
+              </div>
+              <button class="btn btn-primary btn-block" id="calcVatBtn">Calculate VAT Total</button>
+            </div>
+
+            <div class="panel">
+              <h4>VAT Calculation Summary</h4>
+              <div class="stat-list">
+                <div class="stat-row"><span>Net Invoice Amount</span><strong id="vatNet">2500.00</strong></div>
+                <div class="stat-row"><span>Applicable VAT Amount</span><strong id="vatTax">500.00</strong></div>
+                <div class="stat-row"><span>Gross Client Total</span><strong class="emerald" id="vatGross">3000.00</strong></div>
+              </div>
+              <div class="toast" id="vatNote">Standard domestic VAT applied. Select 0% B2B Cross-Border Reverse Charge when billing VAT-registered EU/international businesses.</div>
+            </div>
+          </div>
+
+          <!-- View 3: Invoice Studio & Pro Export -->
+          <div id="view-invoice" class="grid-2 hidden">
+            <div class="panel">
+              <h4>Invoice Details &amp; License Unlock</h4>
+              <div class="field">
+                <label for="invClient">Client / Company Name</label>
+                <input type="text" id="invClient" placeholder="Acme Labs Ltd." />
+              </div>
+              <div class="field">
+                <label for="invService">Service Description</label>
+                <input type="text" id="invService" placeholder="Product Engineering & Advisory" />
+              </div>
+              <div class="field">
+                <label for="invTotal">Invoice Total ($ / £ / €)</label>
+                <input type="number" id="invTotal" value="3000" min="0" step="50" />
+              </div>
+              <div style="display:flex;gap:10px;margin-bottom:16px;">
+                <button class="btn btn-primary" style="flex:1;" id="genInvBtn">Generate Invoice Draft</button>
+                <button class="btn btn-secondary" id="saveInvBtn">Save Draft</button>
+              </div>
+
+              <div style="border-top:1px solid var(--border);padding-top:14px;">
+                <div class="field">
+                  <label for="licenseKey">Pro License Key (Removes Watermark)</label>
+                  <input type="text" id="licenseKey" placeholder="Enter PRO-GLOBAL-2026" />
+                </div>
+                <button class="btn btn-secondary btn-block" id="unlockProBtn">Activate Pro Key</button>
+                <div class="toast" id="proMsg">Pro exports locked on free plan.</div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <h4>Print-Ready Invoice Preview</h4>
+              <div class="invoice-paper" id="invPreview">Click "Generate Invoice Draft" to preview.</div>
+              <div style="display:flex;gap:10px;margin-bottom:16px;">
+                <button class="btn btn-primary" style="flex:1;" id="exportInvBtn">Download Clean Invoice (.TXT)</button>
+                <button class="btn btn-secondary" onclick="window.print()">Print</button>
+              </div>
+              <h4 style="font-size:0.86rem;color:var(--muted);">Saved Local Drafts</h4>
+              <div id="savedInvoicesList" style="font-size:0.82rem;color:var(--subtle);">No saved drafts yet.</div>
+            </div>
+          </div>
+
+          <!-- View 4: Overview Dashboard -->
+          <div id="view-overview" class="hidden">
+            <div class="grid-3" style="margin-bottom:16px;">
+              <div class="panel">
+                <small style="color:var(--muted);">2026 Net Take-Home</small>
+                <div style="font-size:1.5rem;font-weight:800;color:var(--emerald);margin-top:4px;" id="ovTakeHome">$49,271</div>
+              </div>
+              <div class="panel">
+                <small style="color:var(--muted);">VAT Gross Quote</small>
+                <div style="font-size:1.5rem;font-weight:800;margin-top:4px;" id="ovVatGross">3000.00</div>
+              </div>
+              <div class="panel">
+                <small style="color:var(--muted);">Saved Invoices</small>
+                <div style="font-size:1.5rem;font-weight:800;margin-top:4px;" id="ovSavedCount">0</div>
+              </div>
+            </div>
+            <div class="panel">
+              <h4>Quick Launch</h4>
+              <p style="color:var(--muted);font-size:0.9rem;margin-bottom:12px;">All calculations run locally in your browser with zero server lag.</p>
+              <div style="display:flex;flex-wrap:wrap;gap:10px;">
+                <button class="btn btn-primary" data-jump="us-tax">Edit 1099 Estimate</button>
+                <button class="btn btn-secondary" data-jump="vat-calc">Calculate VAT</button>
+                <button class="btn btn-secondary" data-jump="invoice">Create Invoice</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- View 5: Pro & Account Settings -->
+          <div id="view-license" class="grid-2 hidden">
+            <div class="panel">
+              <h4>TaxFlow Global Pro ($14 One-Time)</h4>
+              <p style="color:var(--muted);font-size:0.88rem;margin-bottom:14px;">Purchase once on Gumroad to receive your license key and unlock clean watermark-free exports and an ad-free workspace.</p>
+              <a href="https://appiahjohn0.gumroad.com/l/xtclsy" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-block">Purchase Pro License ($14)</a>
+            </div>
+            <div class="panel">
+              <h4>Local Workspace Settings</h4>
+              <p style="color:var(--muted);font-size:0.88rem;margin-bottom:14px;">Your Pro activation state and saved invoice drafts are stored locally in your browser.</p>
+              <button class="btn btn-secondary" id="resetDemoBtn">Reset Local Pro State</button>
+            </div>
+          </div>
+
+          <!-- Free-Tier Google AdSense Slot -->
+          <div class="ad-slot" id="adsensePlaceholder">
+            Google AdSense Responsive Slot (728x90 / Auto) — Active on Free Tier
+          </div>
+        </div>
       </div>
     </div>
+  </section>
 
-    <div class="ad-slot" id="adsensePlaceholder">
-      Google AdSense Responsive Slot (728x90 / Auto) — Active on Free Tier
+  <!-- Features & How It Works -->
+  <section class="section" id="features">
+    <div class="container">
+      <div class="section-head">
+        <h2>Built for Independent Global Contractors</h2>
+        <p>Focused financial utilities designed for speed, clarity, and cross-border compliance.</p>
+      </div>
+      <div class="grid-3">
+        <div class="feature-card">
+          <h4>2026 US 1099 Tax Engine</h4>
+          <p>Automatically applies the 92.35% net earnings multiplier, $184,500 Social Security wage base cap, 50% SE tax deduction, and state rate estimates.</p>
+        </div>
+        <div class="feature-card">
+          <h4>UK &amp; EU VAT + Reverse Charge</h4>
+          <p>Switch across UK, Germany, France, Netherlands, Spain, Italy, Ireland, Sweden, and 0% B2B cross-border reverse-charge invoices.</p>
+        </div>
+        <div class="feature-card">
+          <h4>Instant Contractor Invoice Studio</h4>
+          <p>Draft client-ready invoices in seconds, save drafts locally, print cleanly, or export `.TXT` records with a one-time $14 Pro key.</p>
+        </div>
+      </div>
     </div>
-  </div>
+  </section>
 
-  
-<div id="gumroadCheckoutBox" style="margin:12px 0;padding:12px;border:1px solid rgba(59,130,246,0.35);border-radius:10px;background:rgba(15,23,42,0.75);">
-  <div style="font-weight:600;margin-bottom:6px;">Unlock Clean Export — $14 Pro License</div>
-  <div style="font-size:13px;opacity:0.85;margin-bottom:10px;">Purchase on Gumroad to receive your Pro unlock details, then enter your license key below to enable clean export.</div>
-  <a href="https://appiahjohn0.gumroad.com/l/xtclsy" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:10px 16px;border-radius:8px;background:#3b82f6;color:#ffffff;text-decoration:none;font-weight:600;">Get Pro License ($14)</a>
-</div>
-<script>
+  <!-- Chrome Extension Showcase -->
+  <section class="section" id="extension">
+    <div class="container grid-2" style="align-items:center;">
+      <div>
+        <div class="eyebrow"><span class="dot-emerald"></span> Browser Companion</div>
+        <h2 style="font-size:1.65rem;font-weight:800;margin-bottom:10px;">Calculate VAT &amp; 1099 Reserves Without Leaving Your Tab</h2>
+        <p style="color:var(--muted);margin-bottom:16px;">The TaxFlow Global Chrome Extension brings the same midnight-navy and emerald calculator directly into your browser toolbar while you review client proposals or marketplace payouts.</p>
+        <p style="font-size:0.84rem;color:var(--subtle);margin-bottom:18px;">Status: Packaged Manifest V3 extension build ready for Chrome Web Store review and unpacked developer installation.</p>
+        <a href="#workspace" class="btn btn-primary">Use Full Web Workspace</a>
+      </div>
+
+      <div class="browser-mock">
+        <div class="browser-bar">
+          <span>● ● ● &nbsp; client-portal.example.com/invoice</span>
+          <span style="color:var(--emerald);font-weight:600;">TF Extension</span>
+        </div>
+        <div class="ext-popup-demo">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+            <strong style="font-size:0.9rem;">TaxFlow<span style="color:var(--emerald);">Global</span></strong>
+            <span style="font-size:0.72rem;color:var(--emerald);background:var(--emerald-soft);padding:2px 8px;border-radius:999px;">v1.0</span>
+          </div>
+          <div style="font-size:0.78rem;color:var(--muted);margin-bottom:8px;">Quick VAT &amp; 1099 Reserve Check</div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:9px;font-size:0.82rem;margin-bottom:8px;">
+            Base: <strong>1,000.00</strong> &nbsp;|&nbsp; UK VAT (20%): <strong style="color:var(--emerald);">+200.00</strong>
+          </div>
+          <div style="font-size:0.76rem;color:var(--muted);display:flex;justify-content:space-between;">
+            <span>Total: 1,200.00</span>
+            <span style="color:var(--emerald);">Open Full Dashboard ↗</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="section" id="pricing">
+    <div class="container">
+      <div class="section-head">
+        <h2>Simple, Transparent Pricing</h2>
+        <p>Use the core calculators free forever, or unlock clean watermark-free exports with a single one-time payment.</p>
+      </div>
+      <div class="grid-2">
+        <div class="price-card">
+          <h4>Free Plan</h4>
+          <div class="price-tag">$0 <small>/ forever</small></div>
+          <ul class="price-list">
+            <li>Full 2026 US 1099 Self-Employment Tax Estimator</li>
+            <li>UK &amp; EU VAT + Reverse-Charge Calculator</li>
+            <li>Basic invoice preview &amp; local draft saving</li>
+            <li>Ad-supported experience</li>
+          </ul>
+          <a href="#workspace" class="btn btn-secondary btn-block">Start Free Now</a>
+        </div>
+
+        <div class="price-card featured">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <h4>Pro License</h4>
+            <span class="tier-pill pro">One-Time Payment</span>
+          </div>
+          <div class="price-tag">$14 <small>/ lifetime license</small></div>
+          <ul class="price-list">
+            <li>Everything in the Free Plan</li>
+            <li>Clean, watermark-free `.TXT` &amp; print invoice exports</li>
+            <li>Removes free-tier ad banner from workspace</li>
+            <li>Instant license key delivery via Gumroad</li>
+          </ul>
+          <a href="https://appiahjohn0.gumroad.com/l/xtclsy" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-block">Unlock Pro on Gumroad ($14)</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="faq">
+    <div class="container">
+      <div class="section-head">
+        <h2>Frequently Asked Questions</h2>
+      </div>
+      <div class="grid-2">
+        <div class="faq-item">
+          <h4 style="margin-bottom:6px;">How do I activate my Pro License?</h4>
+          <p style="color:var(--muted);font-size:0.88rem;">Purchase your $14 license on Gumroad to receive your key file, open the Invoice Studio tab, enter your `PRO-` key, and click Activate Pro Key.</p>
+        </div>
+        <div class="faq-item">
+          <h4 style="margin-bottom:6px;">Is my financial data stored on a server?</h4>
+          <p style="color:var(--muted);font-size:0.88rem;">No. All tax calculations, VAT figures, Pro unlock state, and saved invoice drafts run and persist locally in your browser.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Legal Disclaimer Footer -->
+  <footer id="taxflowDisclaimer">
+    <div class="container">
+      <p style="margin-bottom:8px;"><strong style="color:var(--text);">TaxFlow Global</strong> — Global 1099 Tax, UK/EU VAT &amp; Contractor Invoice Utility.</p>
+      <p><strong>Disclaimer:</strong> TaxFlow Global is a general estimation and invoicing utility for informational purposes only. Calculations for US self-employment tax, UK/EU VAT, and invoice drafts do not constitute formal tax, accounting, or legal advice. Always verify filings with a qualified tax professional or official revenue authority.</p>
+    </div>
+  </footer>
+
+  <script>
     const STATE_KEY = 'taxflow_pro_unlocked_v1';
+    const DRAFTS_KEY = 'taxflow_saved_invoices_v1';
     let isPro = false;
     try { isPro = localStorage.getItem(STATE_KEY) === 'true'; } catch (e) {}
+
+    const VIEW_META = {
+      'us-tax': ['2026 US Self-Employment Tax Estimator', 'Model net profit, 15.3% SE tax (92.35% base up to $184.5k), federal, and state taxes.'],
+      'vat-calc': ['UK & EU VAT / Reverse-Charge Calculator', 'Calculate standard domestic VAT or 0% B2B cross-border reverse charge totals.'],
+      'invoice': ['Contractor Invoice Studio & Pro Export', 'Generate clean print-ready drafts, save locally, and unlock watermark-free exports.'],
+      'overview': ['Financial Overview Dashboard', 'Live summary of your current 1099 take-home estimate, VAT quote, and saved drafts.'],
+      'license': ['Pro License & Workspace Settings', 'Manage your $14 lifetime Pro license and local browser storage.']
+    };
 
     function fmtMoney(n) {
       return Number(n || 0).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
@@ -181,14 +946,21 @@
       const badge = document.getElementById('tierBadge');
       const adSlot = document.getElementById('adsensePlaceholder');
       const proMsg = document.getElementById('proMsg');
+      const heroLic = document.getElementById('heroLicenseState');
       if (isPro) {
         badge.textContent = 'Pro Unlocked • Ad-Free Exports';
+        badge.classList.add('pro');
         adSlot.classList.add('hidden');
         proMsg.textContent = 'Pro active: Clean exports enabled.';
+        proMsg.className = 'toast ok';
+        if (heroLic) heroLic.textContent = 'Pro Active';
       } else {
         badge.textContent = 'Free Tier • Ad-Supported';
+        badge.classList.remove('pro');
         adSlot.classList.remove('hidden');
         proMsg.textContent = 'Pro exports locked on free plan.';
+        proMsg.className = 'toast';
+        if (heroLic) heroLic.textContent = 'Free Plan';
       }
     }
 
@@ -209,16 +981,33 @@
       document.getElementById('usFedTax').textContent = '$' + fmtMoney(fedTax);
       document.getElementById('usStateTax').textContent = '$' + fmtMoney(stateTax);
       document.getElementById('usTakeHome').textContent = '$' + fmtMoney(takeHome);
+
+      document.getElementById('heroTakeHome').textContent = '$' + fmtMoney(takeHome);
+      document.getElementById('heroSeTax').textContent = '$' + fmtMoney(seTax);
+      document.getElementById('ovTakeHome').textContent = '$' + fmtMoney(takeHome);
+
+      const takePct = net > 0 ? Math.round((takeHome / net) * 100) : 100;
+      const taxPct = Math.max(0, 100 - takePct);
+      document.getElementById('usTakeBar').style.width = takePct + '%';
+      document.getElementById('usTaxBar').style.width = taxPct + '%';
+      document.getElementById('usTakePctLabel').textContent = 'Take-Home: ' + takePct + '%';
+      document.getElementById('usTaxPctLabel').textContent = 'Total Tax Reserve: ' + taxPct + '%';
     }
 
     function calcVat() {
       const net = Math.max(0, Number(document.getElementById('vatAmount').value) || 0);
-      const rate = Math.max(0, Number(document.getElementById('vatRegion').value) || 0) / 100;
+      const rateVal = Number(document.getElementById('vatRegion').value) || 0;
+      const rate = Math.max(0, rateVal) / 100;
       const vat = net * rate;
       const gross = net + vat;
       document.getElementById('vatNet').textContent = net.toFixed(2);
       document.getElementById('vatTax').textContent = vat.toFixed(2);
       document.getElementById('vatGross').textContent = gross.toFixed(2);
+      document.getElementById('heroVatGross').textContent = gross.toFixed(2);
+      document.getElementById('ovVatGross').textContent = gross.toFixed(2);
+      document.getElementById('vatNote').textContent = rateVal === 0
+        ? '0% B2B Reverse Charge selected: Recipient accounts for VAT under cross-border reverse-charge rules.'
+        : 'Standard ' + rateVal + '% VAT calculated on net invoice amount.';
     }
 
     function buildInvoiceText() {
@@ -235,21 +1024,81 @@
       ].join('\n');
     }
 
-    document.querySelectorAll('.tab-btn').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.tab-btn').forEach((b) => b.classList.remove('active'));
-        btn.classList.add('active');
-        const target = btn.getAttribute('data-tab');
-        ['us-tax', 'vat-calc', 'invoice'].forEach((id) => {
-          document.getElementById('tab-' + id).classList.toggle('hidden', id !== target);
+    function renderSavedDrafts() {
+      const listEl = document.getElementById('savedInvoicesList');
+      let drafts = [];
+      try { drafts = JSON.parse(localStorage.getItem(DRAFTS_KEY) || '[]'); } catch (e) {}
+      document.getElementById('ovSavedCount').textContent = String(drafts.length);
+      if (!drafts.length) {
+        listEl.textContent = 'No saved drafts yet.';
+        return;
+      }
+      listEl.innerHTML = '';
+      drafts.slice(0, 5).forEach((d) => {
+        const row = document.createElement('div');
+        row.className = 'saved-item';
+        row.innerHTML = '<span><strong>' + d.client + '</strong> — ' + Number(d.total).toFixed(2) + '</span>';
+        const loadBtn = document.createElement('button');
+        loadBtn.className = 'btn btn-secondary';
+        loadBtn.style.padding = '4px 10px';
+        loadBtn.style.fontSize = '0.76rem';
+        loadBtn.textContent = 'Load';
+        loadBtn.addEventListener('click', () => {
+          document.getElementById('invClient').value = d.client;
+          document.getElementById('invService').value = d.service;
+          document.getElementById('invTotal').value = d.total;
+          document.getElementById('invPreview').textContent = buildInvoiceText();
         });
+        row.appendChild(loadBtn);
+        listEl.appendChild(row);
       });
+    }
+
+    function switchView(viewId) {
+      document.querySelectorAll('.nav-item').forEach((b) => {
+        b.classList.toggle('active', b.getAttribute('data-view') === viewId);
+      });
+      Object.keys(VIEW_META).forEach((id) => {
+        document.getElementById('view-' + id).classList.toggle('hidden', id !== viewId);
+      });
+      if (VIEW_META[viewId]) {
+        document.getElementById('wsTitle').textContent = VIEW_META[viewId][0];
+        document.getElementById('wsSubtitle').textContent = VIEW_META[viewId][1];
+      }
+    }
+
+    document.querySelectorAll('.nav-item').forEach((btn) => {
+      btn.addEventListener('click', () => switchView(btn.getAttribute('data-view')));
+    });
+
+    document.querySelectorAll('[data-jump]').forEach((btn) => {
+      btn.addEventListener('click', () => switchView(btn.getAttribute('data-jump')));
+    });
+
+    document.getElementById('collapseSidebarBtn').addEventListener('click', () => {
+      document.getElementById('workspaceShell').classList.toggle('collapsed');
+    });
+
+    document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+      document.getElementById('navLinks').classList.toggle('open');
     });
 
     document.getElementById('calcUsBtn').addEventListener('click', calcUsTax);
     document.getElementById('calcVatBtn').addEventListener('click', calcVat);
     document.getElementById('genInvBtn').addEventListener('click', () => {
       document.getElementById('invPreview').textContent = buildInvoiceText();
+    });
+
+    document.getElementById('saveInvBtn').addEventListener('click', () => {
+      const client = document.getElementById('invClient').value.trim() || 'Client';
+      const service = document.getElementById('invService').value.trim() || 'Consulting Services';
+      const total = Number(document.getElementById('invTotal').value) || 0;
+      let drafts = [];
+      try { drafts = JSON.parse(localStorage.getItem(DRAFTS_KEY) || '[]'); } catch (e) {}
+      drafts.unshift({ client, service, total, ts: Date.now() });
+      try { localStorage.setItem(DRAFTS_KEY, JSON.stringify(drafts.slice(0, 10))); } catch (e) {}
+      document.getElementById('invPreview').textContent = buildInvoiceText();
+      renderSavedDrafts();
     });
 
     document.getElementById('unlockProBtn').addEventListener('click', () => {
@@ -260,8 +1109,17 @@
         updateProUI();
         document.getElementById('invPreview').textContent = buildInvoiceText();
       } else {
-        document.getElementById('proMsg').textContent = 'Invalid key format. Use PRO-GLOBAL-2026 to test.';
+        const proMsg = document.getElementById('proMsg');
+        proMsg.textContent = 'Invalid key format. Use PRO-GLOBAL-2026 to test.';
+        proMsg.className = 'toast err';
       }
+    });
+
+    document.getElementById('resetDemoBtn').addEventListener('click', () => {
+      isPro = false;
+      try { localStorage.removeItem(STATE_KEY); } catch (e) {}
+      updateProUI();
+      document.getElementById('invPreview').textContent = buildInvoiceText();
     });
 
     document.getElementById('exportInvBtn').addEventListener('click', () => {
@@ -279,10 +1137,7 @@
     calcUsTax();
     calcVat();
     updateProUI();
+    renderSavedDrafts();
   </script>
-
-<footer id="taxflowDisclaimer" style="margin-top:28px;padding:14px;border-top:1px solid rgba(148,163,184,0.2);font-size:12px;line-height:1.5;opacity:0.8;">
-  <strong>Disclaimer:</strong> TaxFlow Global is a general estimation and invoicing utility for informational purposes only. Calculations for US self-employment tax, UK/EU VAT, and invoice drafts do not constitute formal tax, accounting, or legal advice. Always verify filings with a qualified tax professional or official revenue authority.
-</footer>
 </body>
 </html>

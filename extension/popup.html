@@ -3,26 +3,115 @@
 <head>
   <meta charset="UTF-8" />
   <style>
-    body { width: 320px; margin: 0; padding: 14px; background: #0b1120; color: #f8fafc; font-family: system-ui, sans-serif; }
-    h3 { font-size: 0.95rem; margin: 0 0 10px; }
-    label { display: block; font-size: 0.78rem; color: #94a3b8; margin-top: 8px; }
-    input, select { width: 100%; box-sizing: border-box; margin-top: 4px; padding: 7px 9px; border-radius: 6px; border: 1px solid #334155; background: #1e293b; color: #f8fafc; }
-    button { width: 100%; margin-top: 10px; padding: 8px; border: none; border-radius: 6px; background: #3b82f6; color: #fff; font-weight: 700; cursor: pointer; }
-    .out { margin-top: 12px; padding: 10px; border-radius: 8px; background: #111827; border: 1px solid #334155; font-size: 0.85rem; }
+    :root {
+      --bg: #0B1220;
+      --surface: #121D2E;
+      --surface-2: #18263C;
+      --emerald: #19C995;
+      --emerald-hover: #14B384;
+      --emerald-soft: rgba(25, 201, 149, 0.14);
+      --text: #F8FAFC;
+      --muted: #94A3B8;
+      --border: rgba(148, 163, 184, 0.18);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      width: 340px;
+      padding: 14px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 10px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .brand { font-weight: 800; font-size: 0.98rem; letter-spacing: -0.02em; }
+    .brand span { color: var(--emerald); }
+    .pill {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--emerald);
+      background: var(--emerald-soft);
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+    label { display: block; font-size: 0.76rem; color: var(--muted); margin-top: 9px; margin-bottom: 4px; }
+    input, select {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: var(--text);
+      font-size: 0.86rem;
+      outline: none;
+    }
+    input:focus, select:focus { border-color: var(--emerald); }
+    button {
+      width: 100%;
+      margin-top: 11px;
+      padding: 9px 12px;
+      border: none;
+      border-radius: 8px;
+      background: var(--emerald);
+      color: #042219;
+      font-weight: 700;
+      font-size: 0.86rem;
+      cursor: pointer;
+    }
+    button:hover { background: var(--emerald-hover); }
+    .out {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 9px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      font-size: 0.82rem;
+      line-height: 1.45;
+    }
+    .footer-links {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+      font-size: 0.76rem;
+    }
+    .footer-links a { color: var(--muted); text-decoration: none; font-weight: 600; }
+    .footer-links a.pro-link { color: var(--emerald); }
+    .footer-links a:hover { color: var(--text); }
   </style>
 </head>
 <body>
-  <h3>TaxFlow Quick Calculator</h3>
+  <div class="top">
+    <div class="brand">TaxFlow<span>Global</span></div>
+    <span class="pill">Quick Suite</span>
+  </div>
+
   <label for="amount">Amount ($ / £ / €)</label>
   <input type="number" id="amount" value="1000" min="0" step="10" />
+
   <label for="mode">Calculation Mode</label>
   <select id="mode">
     <option value="vat20">UK / France VAT (+20%)</option>
     <option value="vat19">Germany VAT (+19%)</option>
     <option value="se153">US SE Tax Est. (~14.13% of net)</option>
   </select>
+
   <button id="runBtn">Calculate</button>
-  <div class="out" id="result">Net: 1000.00 | Tax: 200.00 | Total: 1200.00</div>
+  <div class="out" id="result">Base: 1000.00 | Est. Tax: 200.00 | Result: 1200.00</div>
+
+  <div class="footer-links">
+    <a href="https://taxflow-global.onrender.com" target="_blank" rel="noopener noreferrer">Full Workspace ↗</a>
+    <a href="https://appiahjohn0.gumroad.com/l/xtclsy" target="_blank" rel="noopener noreferrer" class="pro-link">Pro ($14)</a>
+  </div>
+
   <script src="popup.js"></script>
 </body>
 </html>
