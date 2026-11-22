@@ -510,6 +510,27 @@
       }
       .mobile-menu-btn { display: inline-flex; }
     }
+  
+    html, body { max-width: 100%; overflow-x: hidden; }
+    .container, .hero-grid, .grid-2, .grid-3, .workspace-shell, .workspace-main, .panel, .preview-card, .browser-mock {
+      min-width: 0;
+      max-width: 100%;
+    }
+    .nav-actions .btn { white-space: nowrap; }
+    @media (max-width: 640px) {
+      .nav-actions .tier-pill { display: none; }
+      .nav-actions .btn { padding: 8px 12px; font-size: 0.82rem; }
+    }
+    @media (max-width: 960px) {
+      .sidebar-top {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+      }
+      .sidebar-header { grid-column: 1 / -1; }
+      .nav-item { width: 100% !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    }
+
   </style>
 </head>
 <body>
@@ -819,7 +840,7 @@
         </div>
         <div class="feature-card">
           <h4>Instant Contractor Invoice Studio</h4>
-          <p>Draft client-ready invoices in seconds, save drafts locally, print cleanly, or export `.TXT` records with a one-time $14 Pro key.</p>
+          <p>Draft client-ready invoices in seconds, save drafts locally, print cleanly, or export .TXT records with a one-time $14 Pro key.</p>
         </div>
       </div>
     </div>
@@ -887,7 +908,7 @@
           <div class="price-tag">$14 <small>/ lifetime license</small></div>
           <ul class="price-list">
             <li>Everything in the Free Plan</li>
-            <li>Clean, watermark-free `.TXT` &amp; print invoice exports</li>
+            <li>Clean, watermark-free .TXT &amp; print invoice exports</li>
             <li>Removes free-tier ad banner from workspace</li>
             <li>Instant license key delivery via Gumroad</li>
           </ul>
