@@ -753,7 +753,7 @@
               <div style="border-top:1px solid var(--border);padding-top:14px;">
                 <div class="field">
                   <label for="licenseKey">Pro License Key (Removes Watermark)</label>
-                  <input type="text" id="licenseKey" placeholder="Enter PRO-GLOBAL-2026" />
+                  <input type="text" id="licenseKey" placeholder="Enter your Pro License Key" />
                 </div>
                 <button class="btn btn-secondary btn-block" id="unlockProBtn">Activate Pro Key</button>
                 <div class="toast" id="proMsg">Pro exports locked on free plan.</div>
@@ -1122,16 +1122,29 @@
       renderSavedDrafts();
     });
 
-    document.getElementById('unlockProBtn').addEventListener('click', () => {
+    const ALLOWED_KEY_HASHES = ["885df868bc287ccba16d0282ddbdf7a120d2b79c8b86a49443839cc2b4a0633d"];
+    async function sha256Hex(str) {
+      const buf = new TextEncoder().encode(str);
+      const digest = await crypto.subtle.digest('SHA-256', buf);
+      return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    document.getElementById('unlockProBtn').addEventListener('click', async () => {
       const key = document.getElementById('licenseKey').value.trim().toUpperCase();
-      if (key.startsWith('PRO-')) {
+      const proMsg = document.getElementById('proMsg');
+      if (!key) {
+        proMsg.textContent = 'Please enter a valid Pro license key.';
+        proMsg.className = 'toast err';
+        return;
+      }
+      const hex = await sha256Hex(key);
+      if (ALLOWED_KEY_HASHES.includes(hex)) {
         isPro = true;
         try { localStorage.setItem(STATE_KEY, 'true'); } catch (e) {}
         updateProUI();
         document.getElementById('invPreview').textContent = buildInvoiceText();
       } else {
-        const proMsg = document.getElementById('proMsg');
-        proMsg.textContent = 'Invalid key format. Use PRO-GLOBAL-2026 to test.';
+        proMsg.textContent = 'Invalid license key. Check your Gumroad delivery file and try again.';
         proMsg.className = 'toast err';
       }
     });
